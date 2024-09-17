@@ -41,8 +41,23 @@ document.addEventListener('DOMContentLoaded', function () {
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                const texture = new THREE.TextureLoader().load(e.target.result);
-                tileTexture = texture; // Stocke la texture pour une application manuelle via clic
+                const loader = new THREE.TextureLoader();
+                loader.load(
+                    e.target.result,
+                    function (texture) {
+                        texture.encoding = THREE.sRGBEncoding;
+                        texture.wrapS = THREE.RepeatWrapping;
+                        texture.wrapT = THREE.RepeatWrapping;
+                        texture.minFilter = THREE.LinearFilter;
+                        texture.magFilter = THREE.LinearFilter;
+                        tileTexture = texture; // Stocke la texture pour une application manuelle via clic
+                        console.log('Texture chargée et prête à être appliquée.');
+                    },
+                    undefined,
+                    function (error) {
+                        console.error('Erreur de chargement de la texture :', error);
+                    }
+                );
             };
             reader.readAsDataURL(file);
         }
@@ -69,6 +84,8 @@ let walls = [], floor;
 let objects = [];
 let directionalLight;
 let tileTexture = null; // Stockage de la texture de carrelage pour une application par clic
+let lastClickTime = 0; // Utilisé pour détecter les doubles clics
+let isTextureFlipped = false; // État pour savoir si la texture est inversée ou non
 
 function init() {
     scene = new THREE.Scene();
@@ -76,6 +93,7 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.getElementById('scene') });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.outputEncoding = THREE.sRGBEncoding; // Assurez-vous que le rendu prend en compte l'encodage des textures
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -134,44 +152,83 @@ function createFloor() {
 }
 
 function applyTileToWall(texture, wallIndex) {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
+    const wallTexture = texture.clone();
+    wallTexture.wrapS = THREE.RepeatWrapping;
+    wallTexture.wrapT = THREE.RepeatWrapping;
+    wallTexture.needsUpdate = true; // Forcer la mise à jour de la texture
 
     const wall = walls[wallIndex];
-    if (wallIndex === 0) {
-        wall.material.map = texture;
-        wall.material.color.set(0xffffff);
-        wall.material.needsUpdate = true;
-        console.log(`Carrelage appliqué sur le mur avant.`);
-    } else {
-        alert('Le carrelage ne peut pas être appliqué sur ce mur.');
-    }
+    wall.material.map = wallTexture;
+    wall.material.color.set(0xffffff);
+    wall.material.needsUpdate = true; // Forcer la mise à jour du matériau
+    wall.position.y = 1.5;
+    console.log(`Carrelage appliqué sur le mur ${wallIndex + 1}.`);
 }
 
 function applyTileToFloor(texture) {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
+    const floorTexture = texture.clone();
+    floorTexture.wrapS = THREE.RepeatWrapping;
+    floorTexture.wrapT = THREE.RepeatWrapping;
+    floorTexture.needsUpdate = true; // Forcer la mise à jour de la texture
 
     const floorWidth = floor.geometry.parameters.width;
     const floorHeight = floor.geometry.parameters.height;
-    const textureAspectRatio = texture.image.width / texture.image.height;
+    const textureAspectRatio = floorTexture.image.width / floorTexture.image.height;
     const desiredTilesAcross = 5;
 
     const repeatX = desiredTilesAcross;
     const repeatY = desiredTilesAcross / textureAspectRatio * (floorHeight / floorWidth);
 
-    texture.repeat.set(repeatX, repeatY);
-    texture.center.set(0.5, 0.5);
+    floorTexture.repeat.set(repeatX, repeatY);
+    floorTexture.center.set(0.5, 0.5);
 
-    floor.material.map = texture;
-    floor.material.needsUpdate = true;
+    floor.material.map = floorTexture;
+    floor.material.needsUpdate = true; // Forcer la mise à jour du matériau
 
     console.log(`Carrelage appliqué au sol avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions.`);
 }
 
+function changeFloorTextureOrientation() {
+    if (floor.material.map) {
+        // Basculer l'état d'orientation
+        isTextureFlipped = !isTextureFlipped;
+
+        // Définir les nouvelles valeurs de répétition selon l'état d'orientation
+        const newTexture = floor.material.map.clone();
+        const repeatX = isTextureFlipped ? newTexture.repeat.y : newTexture.repeat.x;
+        const repeatY = isTextureFlipped ? newTexture.repeat.x : newTexture.repeat.y;
+
+        // Appliquer les répétitions basculées
+        newTexture.repeat.set(repeatX, repeatY);
+        newTexture.wrapS = THREE.RepeatWrapping;
+        newTexture.wrapT = THREE.RepeatWrapping;
+        newTexture.needsUpdate = true;
+
+        // Recréer le matériau pour forcer la mise à jour
+        const newMaterial = new THREE.MeshStandardMaterial({
+            map: newTexture,
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+        });
+
+        // Supprimer l'ancien sol et créer un nouveau Mesh pour forcer la mise à jour
+        scene.remove(floor);
+        floor = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), newMaterial);
+        floor.rotation.x = -Math.PI / 2;
+        floor.userData.type = 'floor';
+        scene.add(floor);
+
+        console.log(`Orientation de la texture du sol modifiée. Nouvelle orientation: ${isTextureFlipped ? 'Inversée' : 'Normale'}`);
+
+        // Forcer le rendu pour visualiser le changement immédiatement
+        renderer.clear(); // Efface le rendu précédent
+        renderer.render(scene, camera);
+    }
+}
+
 function applyPaintToAllWalls(color) {
     walls.forEach((wall, index) => {
-        if (index !== 0 || !wall.material.map) {
+        if (!wall.material.map) {
             wall.material.color.set(color);
             wall.material.needsUpdate = true;
             console.log(`Peinture appliquée au mur ${index + 1}`);
@@ -191,12 +248,42 @@ function onWindowResize() {
 }
 
 function onMouseClick(event) {
+    const currentTime = Date.now();
+    if (currentTime - lastClickTime < 300) { // Vérifie si le double clic est dans un intervalle de 300ms
+        handleDoubleClick(event.clientX, event.clientY);
+    }
+    lastClickTime = currentTime;
     handleInteraction(event.clientX, event.clientY);
 }
 
 function onTouchStart(event) {
-    if (event.touches.length === 1) {
+    const currentTime = Date.now();
+    if (event.touches.length === 1) { // Un seul doigt touche l'écran
+        if (currentTime - lastClickTime < 300) { // Vérifie si le double tap est dans un intervalle de 300ms
+            handleDoubleClick(event.touches[0].clientX, event.touches[0].clientY);
+        }
+        lastClickTime = currentTime;
         handleInteraction(event.touches[0].clientX, event.touches[0].clientY);
+    }
+}
+
+function handleDoubleClick(x, y) {
+    const mouse = new THREE.Vector2();
+    const raycaster = new THREE.Raycaster();
+
+    mouse.x = (x / renderer.domElement.clientWidth) * 2 - 1;
+    mouse.y = -(y / renderer.domElement.clientHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(objects, true);
+
+    if (intersects.length > 0) {
+        const clickedObject = intersects[0].object;
+
+        // Si le sol est cliqué deux fois, changer l'orientation de la texture
+        if (clickedObject === floor) {
+            changeFloorTextureOrientation();
+        }
     }
 }
 
@@ -213,16 +300,14 @@ function handleInteraction(x, y) {
     if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
 
+        // Appliquer le carrelage uniquement sur le sol ou le mur avant selon la sélection manuelle
         if (clickedObject === floor && tileTexture) {
-            applyTileToFloor(tileTexture);
+            applyTileToFloor(tileTexture); // Applique le carrelage au sol
         }
 
         if (clickedObject === walls[0] && tileTexture) {
-            if (!walls[0].material.color.equals(new THREE.Color(0xffffff))) {
-                applyTileToWall(tileTexture, 0);
-            } else {
-                alert('Impossible d’appliquer le carrelage sur le mur avant déjà peint.');
-            }
+            // Appliquer le carrelage sur le mur avant sans restriction de peinture
+            applyTileToWall(tileTexture, 0); // Applique le carrelage au mur avant par clic
         }
     }
 }
