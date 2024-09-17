@@ -58,6 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Avancer et reculer la caméra
     moveForwardBtn.addEventListener('click', () => moveCamera('forward'));
     moveBackwardBtn.addEventListener('click', () => moveCamera('backward'));
+
+    // Écouteurs d'événements pour les interactions souris et tactiles
+    renderer.domElement.addEventListener('click', onMouseClick, false);
+    renderer.domElement.addEventListener('touchstart', onTouchStart, false);
 });
 
 let scene, camera, renderer, controls, transformControls;
@@ -93,7 +97,6 @@ function init() {
     scene.add(directionalLight);
 
     window.addEventListener('resize', onWindowResize, false);
-    renderer.domElement.addEventListener('click', onMouseClick, false);
 
     animate();
 }
@@ -131,15 +134,13 @@ function createFloor() {
 }
 
 function applyTileToWall(texture, wallIndex) {
-    // Configure la répétition de la texture pour le mur
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
 
-    // Applique la texture seulement sur le mur avant
     const wall = walls[wallIndex];
-    if (wallIndex === 0) { // S'applique uniquement au mur avant (index 0)
+    if (wallIndex === 0) {
         wall.material.map = texture;
-        wall.material.color.set(0xffffff); // Remet la couleur à blanc pour afficher la texture
+        wall.material.color.set(0xffffff);
         wall.material.needsUpdate = true;
         console.log(`Carrelage appliqué sur le mur avant.`);
     } else {
@@ -148,7 +149,6 @@ function applyTileToWall(texture, wallIndex) {
 }
 
 function applyTileToFloor(texture) {
-    // Configure la répétition de la texture pour le sol
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
 
@@ -171,7 +171,6 @@ function applyTileToFloor(texture) {
 
 function applyPaintToAllWalls(color) {
     walls.forEach((wall, index) => {
-        // Appliquer la peinture sur les murs gauche et droit, sans se soucier du mur avant s'il est carrelé
         if (index !== 0 || !wall.material.map) {
             wall.material.color.set(color);
             wall.material.needsUpdate = true;
@@ -192,11 +191,21 @@ function onWindowResize() {
 }
 
 function onMouseClick(event) {
+    handleInteraction(event.clientX, event.clientY);
+}
+
+function onTouchStart(event) {
+    if (event.touches.length === 1) {
+        handleInteraction(event.touches[0].clientX, event.touches[0].clientY);
+    }
+}
+
+function handleInteraction(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
 
-    mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
-    mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+    mouse.x = (x / renderer.domElement.clientWidth) * 2 - 1;
+    mouse.y = -(y / renderer.domElement.clientHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(objects, true);
@@ -204,14 +213,13 @@ function onMouseClick(event) {
     if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
 
-        // Appliquer le carrelage uniquement sur le sol ou le mur avant selon la sélection manuelle
         if (clickedObject === floor && tileTexture) {
-            applyTileToFloor(tileTexture); // Applique le carrelage au sol
+            applyTileToFloor(tileTexture);
         }
 
         if (clickedObject === walls[0] && tileTexture) {
             if (!walls[0].material.color.equals(new THREE.Color(0xffffff))) {
-                applyTileToWall(tileTexture, 0); // Applique le carrelage au mur avant par clic
+                applyTileToWall(tileTexture, 0);
             } else {
                 alert('Impossible d’appliquer le carrelage sur le mur avant déjà peint.');
             }
