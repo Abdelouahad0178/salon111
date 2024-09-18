@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const moveForwardBtn = document.getElementById('moveForward');
     const moveBackwardBtn = document.getElementById('moveBackward');
 
+    // Ajout des curseurs pour ajuster la taille des carreaux
+    const tileWidthInput = document.getElementById('tileWidth');
+    const tileHeightInput = document.getElementById('tileHeight');
+
     // Afficher les options de texture lorsqu'on clique sur "Appliquer Texture"
     applyTextureBtn.addEventListener('click', () => {
         textureOptions.style.display = 'flex';
@@ -77,6 +81,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // Écouteurs d'événements pour les interactions souris et tactiles
     renderer.domElement.addEventListener('click', onMouseClick, false);
     renderer.domElement.addEventListener('touchstart', onTouchStart, false);
+
+    // Ajuster la largeur et la hauteur des carreaux
+    tileWidthInput.addEventListener('input', () => {
+        adjustTileDimensions();
+    });
+
+    tileHeightInput.addEventListener('input', () => {
+        adjustTileDimensions();
+    });
 });
 
 let scene, camera, renderer, controls, transformControls;
@@ -206,7 +219,7 @@ function applyTileToFloor(texture) {
 function setFloorTextureOrientation() {
     if (floor.material.map) {
         const texture = floor.material.map;
-        
+
         if (isTextureHorizontal) {
             texture.rotation = 0; // Pas de rotation du motif
             const newRepeatX = originalTextureRepeat.y;
@@ -216,7 +229,7 @@ function setFloorTextureOrientation() {
             texture.rotation = 0; // Pas de rotation du motif
             texture.repeat.copy(originalTextureRepeat); // Répétition d'origine
         }
-        
+
         texture.center.set(0.5, 0.5);
         texture.needsUpdate = true;
         floor.material.needsUpdate = true;
@@ -232,6 +245,20 @@ function toggleFloorTextureOrientation() {
 
         renderer.clear();
         renderer.render(scene, camera);
+    }
+}
+
+function adjustTileDimensions() {
+    if (floor.material.map) {
+        const texture = floor.material.map;
+        const widthValue = document.getElementById('tileWidth').value;
+        const heightValue = document.getElementById('tileHeight').value;
+
+        texture.repeat.set(widthValue, heightValue);
+        texture.needsUpdate = true;
+        floor.material.needsUpdate = true;
+
+        console.log(`Dimensions des carreaux ajustées : Largeur = ${widthValue}, Hauteur = ${heightValue}`);
     }
 }
 
