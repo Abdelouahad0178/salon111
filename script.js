@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const tileWidthInput = document.getElementById('tileWidth');
     const tileHeightInput = document.getElementById('tileHeight');
 
+    // Affichages en cm
+    const tileWidthValue = document.getElementById('tileWidthValue');
+    const tileHeightValue = document.getElementById('tileHeightValue');
+
     // Afficher les options de texture lorsqu'on clique sur "Appliquer Texture"
     applyTextureBtn.addEventListener('click', () => {
         textureOptions.style.display = 'flex';
@@ -85,10 +89,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Ajuster la largeur et la hauteur des carreaux
     tileWidthInput.addEventListener('input', () => {
         adjustTileDimensions();
+        tileWidthValue.textContent = `${(tileWidthInput.value * 10).toFixed(0)} `; // Afficher en cm
     });
 
     tileHeightInput.addEventListener('input', () => {
         adjustTileDimensions();
+        tileHeightValue.textContent = `${(tileHeightInput.value * 10).toFixed(0)} `; // Afficher en cm
     });
 });
 
@@ -254,7 +260,8 @@ function adjustTileDimensions() {
         const widthValue = document.getElementById('tileWidth').value;
         const heightValue = document.getElementById('tileHeight').value;
 
-        texture.repeat.set(widthValue, heightValue);
+        // Inverser les répétitions pour que des valeurs plus grandes créent des carreaux plus petits
+        texture.repeat.set(10 / widthValue, 10 / heightValue);
         texture.needsUpdate = true;
         floor.material.needsUpdate = true;
 
