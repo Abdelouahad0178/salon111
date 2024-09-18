@@ -206,19 +206,18 @@ function applyTileToFloor(texture) {
 function setFloorTextureOrientation() {
     if (floor.material.map) {
         const texture = floor.material.map;
+        
         if (isTextureHorizontal) {
-            // Pose horizontale
-            texture.rotation = Math.PI / 2;
+            texture.rotation = 0; // Pas de rotation du motif
             const newRepeatX = originalTextureRepeat.y;
-            const newRepeatY = originalTextureRepeat.x / tileAspectRatio;
-            texture.repeat.set(newRepeatX, newRepeatY);
+            const newRepeatY = originalTextureRepeat.x;
+            texture.repeat.set(newRepeatX, newRepeatY); // Inverser les répétitions X et Y
         } else {
-            // Pose verticale
-            texture.rotation = 0;
-            texture.repeat.copy(originalTextureRepeat);
+            texture.rotation = 0; // Pas de rotation du motif
+            texture.repeat.copy(originalTextureRepeat); // Répétition d'origine
         }
+        
         texture.center.set(0.5, 0.5);
-        texture.offset.set(0, 0);
         texture.needsUpdate = true;
         floor.material.needsUpdate = true;
     }
