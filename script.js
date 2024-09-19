@@ -176,22 +176,31 @@ function createFloor() {
     floor.userData.type = 'floor';
     scene.add(floor);
     objects.push(floor);
-}
-
-function applyTileToWall(texture, wallIndex) {
-    const wallTexture = texture.clone();
-    wallTexture.wrapS = THREE.RepeatWrapping;
-    wallTexture.wrapT = THREE.RepeatWrapping;
-    wallTexture.needsUpdate = true;
-
+}function applyTileToWall(texture, wallIndex) {
     const wall = walls[wallIndex];
-    wall.material.map = wallTexture;
-    wall.material.color.set(0xffffff);
-    wall.material.needsUpdate = true;
-    wall.position.y = 1.5;
+    
+    if (texture) {
+        const wallTexture = texture.clone();
+        wallTexture.wrapS = THREE.RepeatWrapping;
+        wallTexture.wrapT = THREE.RepeatWrapping;
+        wallTexture.repeat.set(2, 1);  // Répéter la texture deux fois en largeur
 
-    console.log(`Carrelage appliqué sur le mur ${wallIndex + 1}.`);
+        // Assurez-vous que le codage de la texture est correctement défini
+        wallTexture.encoding = THREE.sRGBEncoding;
+        wallTexture.needsUpdate = true;
+
+        // Appliquer la texture au matériau du mur
+        wall.material.map = wallTexture;
+        wall.material.color.set(0xffffff);  // S'assurer que la couleur de base est blanche
+        wall.material.needsUpdate = true;
+
+        console.log(`Carrelage appliqué sur le mur ${wallIndex + 1}.`);
+    } else {
+        console.error("Texture non valide ou non chargée correctement.");
+    }
 }
+
+
 
 function applyTileToFloor(texture) {
     const floorTexture = texture.clone();
