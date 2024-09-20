@@ -471,11 +471,16 @@ function updateLightIntensity(value) {
     directionalLight.intensity = parseFloat(value);
     console.log('Intensité de la lumière ajustée à', value);
 }
-
 function applyPaintToAllWalls(color) {
     walls.forEach((wall, index) => {
-        // Supprimer la texture si elle existe
-        if (wall.material.map) {
+        // Vérifier si le mur avant (index 0) est déjà couvert de carrelage
+        if (index === 0 && wall.material.map) {
+            console.log('Le mur avant est déjà couvert de carrelage. La peinture ne sera pas appliquée.');
+            return; // Ne pas appliquer la peinture au mur avant
+        }
+
+        // Supprimer la texture si elle existe (sauf pour le mur avant couvert de carrelage)
+        if (wall.material.map && index !== 0) {
             wall.material.map = null;
         }
         
@@ -485,10 +490,11 @@ function applyPaintToAllWalls(color) {
         
         console.log(`Peinture appliquée au mur ${index + 1}`);
     });
-    
+
     // Sauvegarder l'action dans l'historique
     saveAction('applyPaintToAllWalls', color);
 }
+
 
 // Assurez-vous d'appeler init() quelque part dans votre code pour initialiser la scène
 // init();
