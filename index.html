@@ -15,6 +15,11 @@
         <div id="textureOptions" style="display: none;">
             <button id="choosePaint">Peinture</button>
             <button id="chooseTile">Carrelage</button>
+            <button id="normalTilePose">Pose Normale</button>
+            <button id="offsetTilePose">Pose Décalée</button>
+            <button id="saveImage">Sauvegarder l'image</button>
+             <button id="resetScene">Mise à zéro</button>
+
         </div>
         <input type="file" id="tileInput" accept="image/*" style="display: none;">
         <input type="color" id="colorPicker" style="display: none;">
@@ -30,8 +35,9 @@
         <span id="tileHeightValue">50 </span> <!-- Hauteur en cm -->
         <input type="range" id="tileHeight" min="0" max="10" step="0.1" value="5">
 
-        <button id="moveForward">Avancer</button>
-        <button id="moveBackward">Reculer</button>
+        <button id="redo">Refaire</button>
+        <button id="undo">Défaire</button>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

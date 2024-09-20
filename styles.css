@@ -48,3 +48,28 @@ button:active, select:active, input:active {
 #applyToAll:hover {
     background-color: #2980b9;
 }
+
+/* New buttons styling */
+#resetScene, #undo, #redo {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#resetScene:hover, #undo:hover, #redo:hover {
+    background-color: #c0392b;
+}
+
+#undo, #redo {
+    background-color: #f39c12;
+    color: white;
+}
+
+#undo:hover, #redo:hover {
+    background-color: #e67e22;
+}
+
+
+#normalTilePose,#offsetTilePose{
+
+    display: none;
+}
