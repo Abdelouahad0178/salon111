@@ -111,12 +111,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Ajuster la largeur et la hauteur des carreaux
     tileWidthInput.addEventListener('input', () => {
         adjustTileDimensions();
-        tileWidthValue.textContent = `${(tileWidthInput.value * 10).toFixed(0)} `;
+        tileWidthValue.textContent = `${tileWidthInput.value} `;
     });
 
     tileHeightInput.addEventListener('input', () => {
         adjustTileDimensions();
-        tileHeightValue.textContent = `${(tileHeightInput.value * 10).toFixed(0)} `;
+        tileHeightValue.textContent = `${tileHeightInput.value} `;
     });
 
     // Gestion des types de pose de carrelage au sol
@@ -145,8 +145,6 @@ let objects = [];
 let directionalLight;
 let tileTexture = null;
 let lastClickTime = 0;
-let originalTextureRepeat = new THREE.Vector2(1, 1);
-let tileAspectRatio = 1;
 let isTileRotated = false;
 
 let actionHistory = [];
@@ -237,6 +235,12 @@ function applyTileToWall(texture, wallIndex) {
     console.log(`Carrelage appliqué sur le mur ${wallIndex + 1} avec deux carreaux.`);
 }
 
+function getCurrentTileDimensions() {
+    const tileWidth = parseFloat(document.getElementById('tileWidth').value);
+    const tileHeight = parseFloat(document.getElementById('tileHeight').value);
+    return { width: tileWidth, height: tileHeight };
+}
+
 function applyTileToFloor(texture, isOffset) {
     if (!texture) {
         console.error("Texture non valide ou non chargée correctement.");
@@ -247,29 +251,19 @@ function applyTileToFloor(texture, isOffset) {
     floorTexture.wrapS = THREE.RepeatWrapping;
     floorTexture.wrapT = THREE.RepeatWrapping;
 
-    tileAspectRatio = floorTexture.image.width / floorTexture.image.height;
+    const { width: tileWidth, height: tileHeight } = getCurrentTileDimensions();
 
     const floorWidth = floor.geometry.parameters.width;
     const floorHeight = floor.geometry.parameters.height;
-    const desiredTilesAcross = 5;
 
-    const repeatX = desiredTilesAcross;
-    const repeatY = desiredTilesAcross / tileAspectRatio * (floorHeight / floorWidth);
+    // Calculer le nombre de répétitions basé sur les dimensions du carreau
+    const repeatX = floorWidth / (tileWidth / 10);
+    const repeatY = floorHeight / (tileHeight / 10);
 
-    originalTextureRepeat.set(repeatX, repeatY);
-    floorTexture.repeat.copy(originalTextureRepeat);
+    floorTexture.repeat.set(repeatX, repeatY);
 
     if (isOffset) {
-        floorTexture.onUpdate = function() {
-            for (let row = 0; row < repeatY; row++) {
-                if (row % 2 === 1) {
-                    floorTexture.offset.x = 0.5 / repeatX;
-                } else {
-                    floorTexture.offset.x = 0;
-                }
-                floorTexture.needsUpdate = true;
-            }
-        };
+        floorTexture.offset.x = 0.5 / repeatX;
     } else {
         floorTexture.offset.set(0, 0);
     }
@@ -285,15 +279,9 @@ function applyTileToFloor(texture, isOffset) {
 
 function adjustTileDimensions() {
     if (floor.material.map) {
-        const texture = floor.material.map;
-        const widthValue = document.getElementById('tileWidth').value;
-        const heightValue = document.getElementById('tileHeight').value;
-
-        texture.repeat.set(10 / widthValue, 10 / heightValue);
-        texture.needsUpdate = true;
-        floor.material.needsUpdate = true;
-
-        console.log(`Dimensions des carreaux ajustées : Largeur = ${widthValue}, Hauteur = ${heightValue}`);
+        const { width: tileWidth, height: tileHeight } = getCurrentTileDimensions();
+        applyTileToFloor(floor.material.map, floor.material.map.offset.x !== 0);
+        console.log(`Dimensions des carreaux ajustées : Largeur = ${tileWidth}, Hauteur = ${tileHeight}`);
     }
 }
 
@@ -356,6 +344,7 @@ function onTouchStart(event) {
         lastClickTime = currentTime;
     }
 }
+
 function handleInteraction(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
@@ -471,6 +460,7 @@ function updateLightIntensity(value) {
     directionalLight.intensity = parseFloat(value);
     console.log('Intensité de la lumière ajustée à', value);
 }
+
 function applyPaintToAllWalls(color) {
     walls.forEach((wall, index) => {
         // Vérifier si le mur avant (index 0) est déjà couvert de carrelage
@@ -494,7 +484,6 @@ function applyPaintToAllWalls(color) {
     // Sauvegarder l'action dans l'historique
     saveAction('applyPaintToAllWalls', color);
 }
-
 
 // Assurez-vous d'appeler init() quelque part dans votre code pour initialiser la scène
 // init();
