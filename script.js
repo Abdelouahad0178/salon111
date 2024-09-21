@@ -152,6 +152,7 @@ let isTileRotated = false;
 let actionHistory = [];
 let redoStack = [];
 
+// Initialisation de la scène 3D
 function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -222,21 +223,7 @@ function createFloor() {
     objects.push(floor);
 }
 
-function applyTileToWall(texture, wallIndex) {
-    const wallTexture = texture.clone();
-    wallTexture.wrapS = THREE.RepeatWrapping;
-    wallTexture.wrapT = THREE.RepeatWrapping;
-    wallTexture.repeat.set(2, 1);
-    wallTexture.needsUpdate = true;
-
-    const wall = walls[wallIndex];
-    wall.material.map = wallTexture;
-    wall.material.color.set(0xffffff);
-    wall.material.needsUpdate = true;
-
-    console.log(`Carrelage appliqué sur le mur ${wallIndex + 1} avec deux carreaux.`);
-}
-
+// Fonction pour appliquer la texture sur le sol tout en respectant les dimensions des sliders
 function applyTileToFloor(texture, isOffset) {
     if (!texture) {
         console.error("Texture non valide ou non chargée correctement.");
@@ -247,20 +234,18 @@ function applyTileToFloor(texture, isOffset) {
     floorTexture.wrapS = THREE.RepeatWrapping;
     floorTexture.wrapT = THREE.RepeatWrapping;
 
-    tileAspectRatio = floorTexture.image.width / floorTexture.image.height;
+    const tileWidthValue = document.getElementById('tileWidth').value;
+    const tileHeightValue = document.getElementById('tileHeight').value;
 
-    const floorWidth = floor.geometry.parameters.width;
-    const floorHeight = floor.geometry.parameters.height;
-    const desiredTilesAcross = 5;
+    // Utiliser les valeurs des sliders pour ajuster la répétition de la texture
+    const repeatX = 10 / tileWidthValue; // Ajuster la répétition en fonction de la largeur
+    const repeatY = 10 / tileHeightValue; // Ajuster la répétition en fonction de la hauteur
 
-    const repeatX = desiredTilesAcross;
-    const repeatY = desiredTilesAcross / tileAspectRatio * (floorHeight / floorWidth);
-
-    originalTextureRepeat.set(repeatX, repeatY);
-    floorTexture.repeat.copy(originalTextureRepeat);
+    floorTexture.repeat.set(repeatX, repeatY); // Appliquer les répétitions
+    floorTexture.needsUpdate = true;
 
     if (isOffset) {
-        floorTexture.onUpdate = function() {
+        floorTexture.onUpdate = function () {
             for (let row = 0; row < repeatY; row++) {
                 if (row % 2 === 1) {
                     floorTexture.offset.x = 0.5 / repeatX;
@@ -274,21 +259,49 @@ function applyTileToFloor(texture, isOffset) {
         floorTexture.offset.set(0, 0);
     }
 
-    floorTexture.center.set(0.5, 0.5);
-    floorTexture.needsUpdate = true;
-
     floor.material.map = floorTexture;
     floor.material.needsUpdate = true;
 
     console.log(`Carrelage appliqué au sol avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions. Pose ${isOffset ? 'décalée' : 'normale'}.`);
 }
 
+// Fonction pour appliquer la texture sur le mur avant
+function applyTileToWall(texture, wallIndex) {
+    if (!texture) {
+        console.error("Texture non valide ou non chargée correctement.");
+        return;
+    }
+
+    const wallTexture = texture.clone();
+    wallTexture.wrapS = THREE.RepeatWrapping;
+    wallTexture.wrapT = THREE.RepeatWrapping;
+
+    const tileWidthValue = document.getElementById('tileWidth').value;
+    const tileHeightValue = document.getElementById('tileHeight').value;
+
+    // Utiliser les valeurs des sliders pour ajuster la répétition de la texture
+    const repeatX = 10 / tileWidthValue; 
+    const repeatY = 10 / tileHeightValue; 
+
+    wallTexture.repeat.set(repeatX, repeatY);
+    wallTexture.needsUpdate = true;
+
+    const wall = walls[wallIndex];
+    wall.material.map = wallTexture;
+    wall.material.color.set(0xffffff);
+    wall.material.needsUpdate = true;
+
+    console.log(`Carrelage appliqué sur le mur ${wallIndex + 1} avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions.`);
+}
+
+// Ajuster les dimensions des carreaux en fonction des sliders
 function adjustTileDimensions() {
     if (floor.material.map) {
         const texture = floor.material.map;
         const widthValue = document.getElementById('tileWidth').value;
         const heightValue = document.getElementById('tileHeight').value;
 
+        // Ajuster la répétition de la texture du sol en fonction des sliders
         texture.repeat.set(10 / widthValue, 10 / heightValue);
         texture.needsUpdate = true;
         floor.material.needsUpdate = true;
@@ -356,6 +369,7 @@ function onTouchStart(event) {
         lastClickTime = currentTime;
     }
 }
+
 function handleInteraction(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
@@ -373,7 +387,7 @@ function handleInteraction(x, y) {
             applyTileToFloor(tileTexture, false);
             saveAction('applyTileToFloor', tileTexture, false);
         } else if (clickedObject === walls[0] && tileTexture) {
-            applyTileToWall(tileTexture, 0);
+            applyTileToWall(tileTexture, 0); // Appliquer au mur avant (index 0)
             saveAction('applyTileToWall', tileTexture, 0);
         } else {
             console.log('Aucune surface valide cliquée ou aucune texture chargée.');
@@ -471,30 +485,18 @@ function updateLightIntensity(value) {
     directionalLight.intensity = parseFloat(value);
     console.log('Intensité de la lumière ajustée à', value);
 }
+
 function applyPaintToAllWalls(color) {
     walls.forEach((wall, index) => {
-        // Vérifier si le mur avant (index 0) est déjà couvert de carrelage
-        if (index === 0 && wall.material.map) {
-            console.log('Le mur avant est déjà couvert de carrelage. La peinture ne sera pas appliquée.');
-            return; // Ne pas appliquer la peinture au mur avant
-        }
-
-        // Supprimer la texture si elle existe (sauf pour le mur avant couvert de carrelage)
         if (wall.material.map && index !== 0) {
             wall.material.map = null;
         }
-        
-        // Appliquer la nouvelle couleur
+
         wall.material.color.set(color);
         wall.material.needsUpdate = true;
-        
+
         console.log(`Peinture appliquée au mur ${index + 1}`);
     });
 
-    // Sauvegarder l'action dans l'historique
     saveAction('applyPaintToAllWalls', color);
 }
-
-
-// Assurez-vous d'appeler init() quelque part dans votre code pour initialiser la scène
-// init();
