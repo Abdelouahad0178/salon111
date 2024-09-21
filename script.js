@@ -237,11 +237,10 @@ function applyTileToFloor(texture, isOffset) {
     const tileWidthValue = document.getElementById('tileWidth').value;
     const tileHeightValue = document.getElementById('tileHeight').value;
 
-    // Utiliser les valeurs des sliders pour ajuster la répétition de la texture
-    const repeatX = 10 / tileWidthValue; // Ajuster la répétition en fonction de la largeur
-    const repeatY = 10 / tileHeightValue; // Ajuster la répétition en fonction de la hauteur
+    const repeatX = 10 / tileWidthValue;
+    const repeatY = 10 / tileHeightValue;
 
-    floorTexture.repeat.set(repeatX, repeatY); // Appliquer les répétitions
+    floorTexture.repeat.set(repeatX, repeatY);
     floorTexture.needsUpdate = true;
 
     if (isOffset) {
@@ -262,7 +261,7 @@ function applyTileToFloor(texture, isOffset) {
     floor.material.map = floorTexture;
     floor.material.needsUpdate = true;
 
-    console.log(`Carrelage appliqué au sol avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions. Pose ${isOffset ? 'décalée' : 'normale'}.`);
+    console.log(`Carrelage appliqué au sol avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions.`);
 }
 
 // Fonction pour appliquer la texture sur le mur avant
@@ -279,9 +278,8 @@ function applyTileToWall(texture, wallIndex) {
     const tileWidthValue = document.getElementById('tileWidth').value;
     const tileHeightValue = document.getElementById('tileHeight').value;
 
-    // Utiliser les valeurs des sliders pour ajuster la répétition de la texture
-    const repeatX = 10 / tileWidthValue; 
-    const repeatY = 10 / tileHeightValue; 
+    const repeatX = 10 / tileWidthValue;
+    const repeatY = 10 / tileHeightValue;
 
     wallTexture.repeat.set(repeatX, repeatY);
     wallTexture.needsUpdate = true;
@@ -301,7 +299,6 @@ function adjustTileDimensions() {
         const widthValue = document.getElementById('tileWidth').value;
         const heightValue = document.getElementById('tileHeight').value;
 
-        // Ajuster la répétition de la texture du sol en fonction des sliders
         texture.repeat.set(10 / widthValue, 10 / heightValue);
         texture.needsUpdate = true;
         floor.material.needsUpdate = true;
@@ -404,24 +401,21 @@ function undoAction() {
     if (actionHistory.length > 0) {
         const lastAction = actionHistory.pop();
         redoStack.push(lastAction);
-        
+
         if (lastAction.action === 'applyPaintToAllWalls') {
-            // Réinitialiser les murs à leur état par défaut
             walls.forEach((wall) => {
-                wall.material.color.set(0x888888); // Couleur grise par défaut
+                wall.material.color.set(0x888888); // Couleur par défaut
                 wall.material.map = null;
                 wall.material.needsUpdate = true;
             });
         } else if (lastAction.action === 'applyTileToFloor') {
-            // Réinitialiser le sol sans texture
             floor.material.map = null;
             floor.material.needsUpdate = true;
         } else if (lastAction.action === 'applyTileToWall') {
-            // Réinitialiser le mur avant sans texture
             walls[0].material.map = null;
             walls[0].material.needsUpdate = true;
         }
-        
+
         console.log('Action défaite.');
     } else {
         console.log('Aucune action à défaire.');
@@ -432,15 +426,15 @@ function redoAction() {
     if (redoStack.length > 0) {
         const actionToRedo = redoStack.pop();
         actionHistory.push(actionToRedo);
-        
+
         if (actionToRedo.action === 'applyPaintToAllWalls') {
-            applyPaintToAllWalls(actionToRedo.texture); // 'texture' contient la couleur dans ce cas
+            applyPaintToAllWalls(actionToRedo.texture);
         } else if (actionToRedo.action === 'applyTileToFloor') {
             applyTileToFloor(actionToRedo.texture, actionToRedo.param);
         } else if (actionToRedo.action === 'applyTileToWall') {
             applyTileToWall(actionToRedo.texture, actionToRedo.param);
         }
-        
+
         console.log('Action refaite.');
     } else {
         console.log('Aucune action à refaire.');
@@ -469,7 +463,6 @@ function resetScene() {
         wall.material.needsUpdate = true;
     });
 
-    // Réinitialiser l'historique des actions
     actionHistory = [];
     redoStack = [];
     console.log('Scène réinitialisée.');
@@ -488,14 +481,15 @@ function updateLightIntensity(value) {
 
 function applyPaintToAllWalls(color) {
     walls.forEach((wall, index) => {
-        if (wall.material.map && index !== 0) {
-            wall.material.map = null;
+        // Vérifier si le mur avant (index 0) est déjà couvert de carrelage
+        if (index === 0 && wall.material.map) {
+            console.log('Le mur avant est déjà couvert de carrelage. La peinture ne sera pas appliquée.');
+            return; // Ne pas appliquer la peinture au mur avant
         }
 
+        wall.material.map = null;
         wall.material.color.set(color);
         wall.material.needsUpdate = true;
-
-        console.log(`Peinture appliquée au mur ${index + 1}`);
     });
 
     saveAction('applyPaintToAllWalls', color);
