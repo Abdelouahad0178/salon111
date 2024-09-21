@@ -205,7 +205,10 @@ function createWalls() {
 }
 
 function createFloor() {
-    const floorGeometry = new THREE.PlaneGeometry(5, 5);
+    // Créer un sol de 5x5 mètres
+    const floorWidth = 5; // en mètres
+    const floorDepth = 5; // en mètres
+    const floorGeometry = new THREE.PlaneGeometry(floorWidth, floorDepth);
     const floorMaterial = new THREE.MeshStandardMaterial({
         color: 0xcccccc,
         side: THREE.DoubleSide,
@@ -218,13 +221,15 @@ function createFloor() {
     floor.userData.type = 'floor';
     scene.add(floor);
     objects.push(floor);
+
+    console.log(`Sol créé avec une surface de ${floorWidth}x${floorDepth} mètres`);
 }
 
 function applyTileToWall(texture, wallIndex) {
     const wallTexture = texture.clone();
     wallTexture.wrapS = THREE.RepeatWrapping;
     wallTexture.wrapT = THREE.RepeatWrapping;
-    wallTexture.repeat.set(2, 1);
+    wallTexture.repeat.set(5, 1);
     wallTexture.needsUpdate = true;
 
     const wall = walls[wallIndex];
@@ -253,12 +258,12 @@ function applyTileToFloor(texture, isOffset) {
 
     const { width: tileWidth, height: tileHeight } = getCurrentTileDimensions();
 
-    const floorWidth = floor.geometry.parameters.width;
-    const floorHeight = floor.geometry.parameters.height;
+    const floorWidth = 3; // en mètres
+    const floorDepth = 3; // en mètres
 
     // Calculer le nombre de répétitions basé sur les dimensions du carreau
-    const repeatX = floorWidth / (tileWidth / 10);
-    const repeatY = floorHeight / (tileHeight / 10);
+    const repeatX = floorWidth / (tileWidth / 100); // Convertir tileWidth de cm à m
+    const repeatY = floorDepth / (tileHeight / 100); // Convertir tileHeight de cm à m
 
     floorTexture.repeat.set(repeatX, repeatY);
 
@@ -274,7 +279,7 @@ function applyTileToFloor(texture, isOffset) {
     floor.material.map = floorTexture;
     floor.material.needsUpdate = true;
 
-    console.log(`Carrelage appliqué au sol avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions. Pose ${isOffset ? 'décalée' : 'normale'}.`);
+    console.log(`Carrelage appliqué au sol de ${floorWidth}x${floorDepth} mètres avec ${repeatX.toFixed(2)}x${repeatY.toFixed(2)} répétitions. Pose ${isOffset ? 'décalée' : 'normale'}.`);
 }
 
 function adjustTileDimensions() {
@@ -344,7 +349,6 @@ function onTouchStart(event) {
         lastClickTime = currentTime;
     }
 }
-
 function handleInteraction(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
