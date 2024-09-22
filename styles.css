@@ -85,7 +85,7 @@ button, select, input {
         flex-wrap:nowrap
     }
     button, select, input {
-        font-size: 12px;
+        font-size: 11px;
         flex-direction: row;
     }
 }
@@ -99,7 +99,7 @@ button, select, input {
 
     }
     button, select, input {
-        font-size: 12px;
+        font-size: 10px;
         flex-direction: row;
     }
     
@@ -114,7 +114,7 @@ button, select, input {
         flex-wrap: nowrap;
     }
     button, select, input {
-        font-size: 12px;
+        font-size: 10px;
         flex-direction: row;
     }
 }
@@ -129,7 +129,7 @@ button, select, input {
         flex-wrap: nowrap;
     }
     button, select, input {
-        font-size: 12px;
+        font-size: 10px;
         flex-direction: row;
         
     }
