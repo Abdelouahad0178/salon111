@@ -1,0 +1,22 @@
+{
+    "name": "Scène 3D Interactif",
+    "short_name": "3D Scène",
+    "description": "Une scène interactive en 3D",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3498db",
+    "icons": [
+      {
+        "src": "/images/favicon-32x32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+      },
+      {
+        "src": "/images/favicon-32x32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+      }
+    ]
+  }
+  
