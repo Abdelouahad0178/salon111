@@ -8,15 +8,15 @@
     "theme_color": "#3498db",
     "icons": [
       {
-        "src": "/images/favicon-32x32.png",
-        "sizes": "32x32",
+        "src": "/images/MAISON CARRELAGE.png",
+        "sizes": "256x256",
         "type": "image/png"
       },
       {
-        "src": "/images/favicon-32x32.png",
-        "sizes": "32x32",
-        "type": "image/png"
+        "src": "/images/MAISON CARRELAGE.png",
+        "sizes": "256x256",
+        "type": "image/png",
+        "purpose": "maskable"
       }
     ]
   }
-  
