@@ -1,8 +1,13 @@
-/* Par défaut : pour les écrans larges (1440px et plus) */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Apply the font family */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     overflow: hidden;
+    background-color: #f4f6f9; /* Light gray background */
+    color: #333; /* Default text color */
 }
 
 canvas {
@@ -11,29 +16,81 @@ canvas {
     height: 100vh;
 }
 
+/* Styling for controls */
 .controls {
     position: fixed;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 15px;
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    border-radius: 8px;
 }
 
+/* General button, select, input styling */
 button, select, input {
-    padding: 8px;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
     font-size: 14px;
     border: none;
+    margin-right:3px;
     border-radius: 3px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    color:#e67e22;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-/* Responsive pour les écrans de 1440px */
+/* Primary button colors */
+button, input[type="submit"] {
+    background-color: #d9c424; /* Primary Purple */
+    color: white;
+    border: 2px solid transparent;
+}
+
+/* Button hover state */
+button:hover, input[type="submit"]:hover {
+    background-color: #732d91; /* Darker purple on hover */
+}
+
+/* Button active (clicked) state */
+button:active, input[type="submit"]:active {
+    background-color: #e67e22; /* Orange when active */
+    border-color: #d66e12;
+}
+
+/* Secondary button color */
+button.secondary {
+    background-color: #1abc9c; /* Teal for secondary buttons */
+    color: white;
+}
+
+button.secondary:hover {
+    background-color: #16a085; /* Darker teal on hover */
+}
+
+button.secondary:active {
+    background-color: #e67e22; /* Orange when active */
+}
+
+/* Disabled button styling */
+button:disabled {
+    background-color: #bdc3c7; /* Light gray for disabled state */
+    color: #ecf0f1; /* Lighter text for readability */
+    cursor: not-allowed;
+}
+
+/* Focus state for input fields */
+button:focus, input:focus {
+    outline: none;
+    border-color: #e67e22; /* Orange border on focus */
+}
+
+/* Responsive for different screen sizes */
 @media (max-width: 1440px) {
     .controls {
         width: 90%;
@@ -42,7 +99,6 @@ button, select, input {
     }
 }
 
-/* Responsive pour les écrans de 1024px */
 @media (max-width: 1024px) {
     .controls {
         width: 85%;
@@ -50,14 +106,12 @@ button, select, input {
     }
 }
 
-/* Responsive pour les écrans de 992px */
 @media (max-width: 992px) {
     .controls {
         width: 80%;
     }
 }
 
-/* Responsive pour les écrans de 820px */
 @media (max-width: 820px) {
     .controls {
         width: 75%;
@@ -65,73 +119,64 @@ button, select, input {
     }
 }
 
-/* Responsive pour les écrans de 768px */
 @media (max-width: 768px) {
     .controls {
-        DISPLAY: FLEX;
+        display: flex;
         width: 70%;
-        HEIGHT: 37%;
-        flex-direction: ROW;
-        
+        height: 37%;
+        flex-direction: row;
     }
     button, select, input {
         font-size: 13px;
     }
 }
 
-/* Responsive pour les écrans de 620px */
 @media (max-width: 620px) {
     .controls {
         width: 90%;
         bottom: 25px;
-        FLEX-DIRECTION: ROW;
+        flex-direction: row;
     }
     button, select, input {
         font-size: 12px;
     }
 }
 
-/* Responsive pour les écrans de 520px */
 @media (max-width: 520px) {
     .controls {
-        DISPLAY: FLEX;
-        
-        HEIGHT: 37%;
-    
+        display: flex;
+        height: 37%;
         width: 95%;
-        FLEX-DIRECTION: ROW;
+        flex-direction: row;
     }
     button, select, input {
         font-size: 11px;
     }
 }
 
-/* Responsive pour les écrans de 425px */
 @media (max-width: 425px) {
     .controls {
         width: 95%;
         padding: 5px;
-        FLEX-DIRECTION: ROW;
+        flex-direction: row;
     }
     button, select, input {
         font-size: 10px;
     }
 }
 
-/* Responsive pour les écrans de 413px */
 @media (max-width: 413px) {
     .controls {
         width: 94%;
         padding: 5px;
         bottom: 30px;
-        FLEX-DIRECTION: ROW;
+        flex-direction: row;
     }
     button, select, input {
         font-size: 10px;
     }
 }
 
-/* Responsive pour les écrans de 360px */
 @media (max-width: 360px) {
     .controls {
         width: 100%;

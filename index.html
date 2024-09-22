@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,73 +9,67 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <canvas id="scene"></canvas>
 
     <div class="controls">
-        <button id="applyTexture">Appliquer Texture </button>
-        <div id="textureOptions" style="display: none;">
-            <button id="choosePaint">Peinture</button>
-            <button id="chooseTile">Carrelage</button>
-            <button id="normalTilePose">Pose Normale</button>
-            <button id="offsetTilePose">Pose Décalée</button>
-            <button id="saveImage">Sauvegarder l'image</button>
-             <button id="resetScene">Mise à zéro</button>
+        <!-- Apply Texture Button -->
+        <button id="applyTexture">Appliquer Texture</button>
 
+        <!-- Hidden texture options initially -->
+        <div id="textureOptions" style="display: none;">
+            <button id="choosePaint" class="secondary">Peinture</button>
+            <button id="chooseTile" class="secondary">Carrelage</button>
+            <button id="normalTilePose" disabled>Pose Normale</button>
+            <button id="offsetTilePose" disabled>Pose Décalée</button>
+            <button id="saveImage">Sauvegarder l'image</button>
+            <button id="resetScene">Mise à zéro</button>
         </div>
+
+        <!-- Hidden file input for uploading tile images -->
         <input type="file" id="tileInput" accept="image/*" style="display: none;">
+
+        <!-- Hidden color picker for choosing paint colors -->
         <input type="color" id="colorPicker" style="display: none;">
+
+        <!-- Hidden light intensity slider -->
         <label for="lightSlider" style="display: none;">Intensité de la lumière:</label>
         <input type="range" id="lightSlider" min="0" max="2" step="0.1" value="1" style="display: none;">
 
-        <!-- Ajout des affichages en cm pour les dimensions des carreaux -->
+        <!-- Tile width and height sliders with labels -->
         <label for="tileWidth">Largeur des carreaux:</label>
-        <span id="tileWidthValue">60 </span> <!-- Largeur en cm -->
+        <span id="tileWidthValue">60</span> <!-- Width in cm -->
         <input type="range" id="tileWidth" min="0" max="200" step="0.1" value="60">
 
         <label for="tileHeight">Hauteur des carreaux:</label>
-        <span id="tileHeightValue">120 </span> <!-- Hauteur en cm -->
+        <span id="tileHeightValue">120</span> <!-- Height in cm -->
         <input type="range" id="tileHeight" min="0" max="300" step="0.1" value="120">
 
-        <button id="redo">Refaire</button>
-        <button id="undo">Défaire</button>
-
+        <!-- Undo and Redo buttons -->
+        <button id="undo" class="secondary">Défaire</button>
+        <button id="redo" class="secondary">Refaire</button>
     </div>
 
+    <script>
+        // Service Worker Registration for caching files
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then((registration) => {
+                    console.log('ServiceWorker enregistré avec succès : ', registration);
+                }, (err) => {
+                    console.log('Échec de l\'enregistrement du ServiceWorker : ', err);
+                });
+            });
+        }
+    </script>
 
-
-
-
-<script>
-
-
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then((registration) => {
-            console.log('ServiceWorker enregistré avec succès : ', registration);
-          }, (err) => {
-            console.log('Échec de l\'enregistrement du ServiceWorker : ', err);
-          });
-        });
-      }
-      
-
-
-
-
-
-
-
-</script>
-
-
-
-
-
-
+    <!-- External Libraries and Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/TransformControls.js"></script>
     <script src="script.js"></script>
+
 </body>
+
 </html>
