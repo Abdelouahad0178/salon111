@@ -81,6 +81,7 @@ button, select, input {
     .controls {
         width: 90%;
         bottom: 25px;
+        FLEX-DIRECTION: ROW;
     }
     button, select, input {
         font-size: 12px;
@@ -91,6 +92,7 @@ button, select, input {
 @media (max-width: 520px) {
     .controls {
         width: 95%;
+        FLEX-DIRECTION: ROW;
     }
     button, select, input {
         font-size: 11px;
@@ -100,8 +102,9 @@ button, select, input {
 /* Responsive pour les écrans de 425px */
 @media (max-width: 425px) {
     .controls {
-        width: 100%;
+        width: 95%;
         padding: 5px;
+        FLEX-DIRECTION: ROW;
     }
     button, select, input {
         font-size: 10px;
@@ -111,9 +114,10 @@ button, select, input {
 /* Responsive pour les écrans de 413px */
 @media (max-width: 413px) {
     .controls {
-        width: 100%;
+        width: 94%;
         padding: 5px;
         bottom: 30px;
+        FLEX-DIRECTION: ROW;
     }
     button, select, input {
         font-size: 10px;
