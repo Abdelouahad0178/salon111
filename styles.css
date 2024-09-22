@@ -81,12 +81,12 @@ button, select, input {
     .controls {
         width: 90%;
         bottom: 25px;
-        flex-direction: row;
-        flex-wrap:nowrap
+        
+        
     }
     button, select, input {
         font-size: 11px;
-        flex-direction: row;
+        
     }
 }
 
@@ -94,13 +94,13 @@ button, select, input {
 @media (max-width: 520px) {
     .controls {
         width: 95%;
-        flex-direction: row;
-        flex-wrap: nowrap;
+        
+    
 
     }
     button, select, input {
         font-size: 10px;
-        flex-direction: row;
+        
     }
     
 }
@@ -110,12 +110,12 @@ button, select, input {
     .controls {
         width: 100%;
         padding: 5px;
-        flex-direction: row;
-        flex-wrap: nowrap;
+        
+        
     }
     button, select, input {
         font-size: 10px;
-        flex-direction: row;
+        
     }
 }
 
@@ -125,8 +125,8 @@ button, select, input {
         width: 100%;
         padding: 5px;
         bottom: 30px;
-        flex-direction: row;
-        flex-wrap: nowrap;
+        
+        
     }
     button, select, input {
         font-size: 10px;
@@ -141,11 +141,11 @@ button, select, input {
         width: 100%;
         padding: 5px;
         bottom: 35px;
-        flex-direction:row;
-        flex-wrap:nowrap;
+        
+        
     }
     button, select, input {
         font-size: 11px;
-        flex-direction: row;
+        
     }
 }
