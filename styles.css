@@ -68,8 +68,11 @@ button, select, input {
 /* Responsive pour les écrans de 768px */
 @media (max-width: 768px) {
     .controls {
+        DISPLAY: FLEX;
         width: 70%;
-        flex-direction: column;
+        HEIGHT: 37%;
+        flex-direction: ROW;
+        
     }
     button, select, input {
         font-size: 13px;
@@ -91,6 +94,10 @@ button, select, input {
 /* Responsive pour les écrans de 520px */
 @media (max-width: 520px) {
     .controls {
+        DISPLAY: FLEX;
+        
+        HEIGHT: 37%;
+    
         width: 95%;
         FLEX-DIRECTION: ROW;
     }
