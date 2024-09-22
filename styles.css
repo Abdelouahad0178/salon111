@@ -85,6 +85,7 @@ button, select, input {
     }
     button, select, input {
         font-size: 12px;
+        flex-direction: row;
     }
 }
 
@@ -97,6 +98,7 @@ button, select, input {
     }
     button, select, input {
         font-size: 11px;
+        flex-direction: row;
     }
     
 }
@@ -110,6 +112,7 @@ button, select, input {
     }
     button, select, input {
         font-size: 10px;
+        flex-direction: row;
     }
 }
 
@@ -123,6 +126,7 @@ button, select, input {
     }
     button, select, input {
         font-size: 10px;
+        flex-direction: row;
     }
 }
 
@@ -136,5 +140,6 @@ button, select, input {
     }
     button, select, input {
         font-size: 9px;
+        flex-direction: row;
     }
 }
