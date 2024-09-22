@@ -132,6 +132,7 @@ button:hover, select:hover, input:hover {
     .controls {
         padding: 5px;
         bottom: 30px;
+        flex-direction: column;
     }
     button, select, input {
         font-size: 11px;
