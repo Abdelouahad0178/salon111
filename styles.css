@@ -97,6 +97,60 @@ button:focus, input:focus {
         flex-direction: row;
         bottom: 15px;
     }
+
+
+
+/* Primary button colors */
+button, input[type="submit"] {
+    background-color: #171402; /* Primary Purple */
+    color: white;
+    border: 2px solid transparent;
+}
+
+/* Button hover state */
+button:hover, input[type="submit"]:hover {
+    background-color: #5f4a7d; /* Darker purple on hover */
+}
+
+/* Button active (clicked) state */
+button:active, input[type="submit"]:active {
+    background-color: #4f2908; /* Orange when active */
+    border-color: #d66e12;
+}
+
+/* Secondary button color */
+button.secondary {
+    background-color: #1abc9c; /* Teal for secondary buttons */
+    color: white;
+}
+
+button.secondary:hover {
+    background-color: #16a085; /* Darker teal on hover */
+}
+
+button.secondary:active {
+    background-color: #e67e22; /* Orange when active */
+}
+
+/* Disabled button styling */
+button:disabled {
+    background-color: #bdc3c7; /* Light gray for disabled state */
+    color: #ecf0f1; /* Lighter text for readability */
+    cursor: not-allowed;
+}
+
+/* Focus state for input fields */
+button:focus, input:focus {
+    outline: none;
+    border-color: #e67e22; /* Orange border on focus */
+}
+
+
+    
+
+
+
+
 }
 
 @media (max-width: 1024px) {
