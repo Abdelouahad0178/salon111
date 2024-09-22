@@ -1,13 +1,15 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 /* Apply the font family */
 body {
     margin: 0;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: "Roboto", Arial, sans-serif;
     overflow: hidden;
-    background-color: #f4f6f9; /* Light gray background */
-    color: #333; /* Default text color */
+    background-color: #f4f6f9;
+    /* Light gray background */
+    color: #333;
+    /* Default text color */
 }
 
 canvas {
@@ -24,70 +26,83 @@ canvas {
     transform: translateX(-50%);
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 5px;
+    padding: 15px;
     display: flex;
     align-items: center;
-    gap: 5px;
+
     flex-wrap: wrap;
     border-radius: 8px;
 }
 
 /* General button, select, input styling */
-button, select, input {
-    font-family: 'Roboto', sans-serif;
+button,
+select,
+input {
+    font-family: "Roboto", sans-serif;
     padding: 10px;
-    font-size: 12px;
+    font-size: 14px;
     border: none;
-    margin-right:10px;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
-    color:#532b09;
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* Primary button colors */
-button, input[type="submit"] {
-    background-color: #171402; /* Primary Purple */
+button,
+input[type="submit"] {
+    background-color: #8e44ad;
+    /* Primary Purple */
     color: white;
     border: 2px solid transparent;
 }
 
 /* Button hover state */
-button:hover, input[type="submit"]:hover {
-    background-color: #5f4a7d; /* Darker purple on hover */
+button:hover,
+input[type="submit"]:hover {
+    background-color: #732d91;
+    /* Darker purple on hover */
 }
 
 /* Button active (clicked) state */
-button:active, input[type="submit"]:active {
-    background-color: #4f2908; /* Orange when active */
-    border-color: #d66e12;
+button:active,
+input[type="submit"]:active {
+    background-color: #e67e22;
+    /* Orange when active */
+    border-color: #e67e22;
 }
 
 /* Secondary button color */
 button.secondary {
-    background-color: #1abc9c; /* Teal for secondary buttons */
+    background-color: #1abc9c;
+    /* Teal for secondary buttons */
     color: white;
 }
 
 button.secondary:hover {
-    background-color: #16a085; /* Darker teal on hover */
+    background-color: #16a085;
+    /* Darker teal on hover */
 }
 
 button.secondary:active {
-    background-color: #e67e22; /* Orange when active */
+    background-color: #e67e22;
+    /* Orange when active */
 }
 
 /* Disabled button styling */
 button:disabled {
-    background-color: #bdc3c7; /* Light gray for disabled state */
-    color: #ecf0f1; /* Lighter text for readability */
+    background-color: #bdc3c7;
+    /* Light gray for disabled state */
+    color: #ecf0f1;
+    /* Lighter text for readability */
     cursor: not-allowed;
 }
 
 /* Focus state for input fields */
-button:focus, input:focus {
+button:focus,
+input:focus {
     outline: none;
-    border-color: #e67e22; /* Orange border on focus */
+    border-color: #e67e22;
+    /* Orange border on focus */
 }
 
 /* Responsive for different screen sizes */
@@ -97,60 +112,6 @@ button:focus, input:focus {
         flex-direction: row;
         bottom: 15px;
     }
-
-
-
-/* Primary button colors */
-button, input[type="submit"] {
-    background-color: #171402; /* Primary Purple */
-    color: white;
-    border: 2px solid transparent;
-}
-
-/* Button hover state */
-button:hover, input[type="submit"]:hover {
-    background-color: #5f4a7d; /* Darker purple on hover */
-}
-
-/* Button active (clicked) state */
-button:active, input[type="submit"]:active {
-    background-color: #4f2908; /* Orange when active */
-    border-color: #d66e12;
-}
-
-/* Secondary button color */
-button.secondary {
-    background-color: #1abc9c; /* Teal for secondary buttons */
-    color: white;
-}
-
-button.secondary:hover {
-    background-color: #16a085; /* Darker teal on hover */
-}
-
-button.secondary:active {
-    background-color: #e67e22; /* Orange when active */
-}
-
-/* Disabled button styling */
-button:disabled {
-    background-color: #bdc3c7; /* Light gray for disabled state */
-    color: #ecf0f1; /* Lighter text for readability */
-    cursor: not-allowed;
-}
-
-/* Focus state for input fields */
-button:focus, input:focus {
-    outline: none;
-    border-color: #e67e22; /* Orange border on focus */
-}
-
-
-    
-
-
-
-
 }
 
 @media (max-width: 1024px) {
@@ -174,13 +135,17 @@ button:focus, input:focus {
 }
 
 @media (max-width: 768px) {
+
     .controls {
         display: flex;
-        width: 70%;
+        width: 88%;
         height: 37%;
         flex-direction: row;
     }
-    button, select, input {
+
+    button,
+    select,
+    input {
         font-size: 13px;
     }
 }
@@ -191,7 +156,10 @@ button:focus, input:focus {
         bottom: 25px;
         flex-direction: row;
     }
-    button, select, input {
+
+    button,
+    select,
+    input {
         font-size: 12px;
     }
 }
@@ -203,7 +171,10 @@ button:focus, input:focus {
         width: 95%;
         flex-direction: row;
     }
-    button, select, input {
+
+    button,
+    select,
+    input {
         font-size: 11px;
     }
 }
@@ -214,7 +185,10 @@ button:focus, input:focus {
         padding: 5px;
         flex-direction: row;
     }
-    button, select, input {
+
+    button,
+    select,
+    input {
         font-size: 10px;
     }
 }
@@ -226,7 +200,10 @@ button:focus, input:focus {
         bottom: 30px;
         flex-direction: row;
     }
-    button, select, input {
+
+    button,
+    select,
+    input {
         font-size: 10px;
     }
 }
@@ -237,7 +214,10 @@ button:focus, input:focus {
         padding: 5px;
         bottom: 35px;
     }
-    button, select, input {
+
+    button,
+    select,
+    input {
         font-size: 9px;
     }
 }
