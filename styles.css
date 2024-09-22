@@ -20,7 +20,7 @@ canvas {
     padding: 10px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -81,12 +81,9 @@ button, select, input {
     .controls {
         width: 90%;
         bottom: 25px;
-        
-        
     }
     button, select, input {
-        font-size: 11px;
-        
+        font-size: 12px;
     }
 }
 
@@ -94,15 +91,10 @@ button, select, input {
 @media (max-width: 520px) {
     .controls {
         width: 95%;
-        
-    
-
     }
     button, select, input {
-        font-size: 10px;
-        
+        font-size: 11px;
     }
-    
 }
 
 /* Responsive pour les écrans de 425px */
@@ -110,12 +102,9 @@ button, select, input {
     .controls {
         width: 100%;
         padding: 5px;
-        
-        
     }
     button, select, input {
         font-size: 10px;
-        
     }
 }
 
@@ -125,13 +114,9 @@ button, select, input {
         width: 100%;
         padding: 5px;
         bottom: 30px;
-        
-        
     }
     button, select, input {
         font-size: 10px;
-        flex-direction: row;
-        
     }
 }
 
@@ -141,11 +126,8 @@ button, select, input {
         width: 100%;
         padding: 5px;
         bottom: 35px;
-        
-        
     }
     button, select, input {
-        font-size: 11px;
-        
+        font-size: 9px;
     }
 }
