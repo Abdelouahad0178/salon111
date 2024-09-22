@@ -1,3 +1,4 @@
+/* Par défaut : pour les écrans larges (1440px et plus) */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -32,44 +33,101 @@ button, select, input {
     transition: background-color 0.3s;
 }
 
-button:hover, select:hover, input:hover {
-    background-color: #ddd;
+/* Responsive pour les écrans de 1440px */
+@media (max-width: 1440px) {
+    .controls {
+        width: 90%;
+        flex-direction: row;
+        bottom: 15px;
+    }
 }
 
-button:active, select:active, input:active {
-    background-color: #ccc;
+/* Responsive pour les écrans de 1024px */
+@media (max-width: 1024px) {
+    .controls {
+        width: 85%;
+        flex-direction: column;
+    }
 }
 
-#applyToAll {
-    background-color: #3498db;
-    color: white;
+/* Responsive pour les écrans de 992px */
+@media (max-width: 992px) {
+    .controls {
+        width: 80%;
+    }
 }
 
-#applyToAll:hover {
-    background-color: #2980b9;
+/* Responsive pour les écrans de 820px */
+@media (max-width: 820px) {
+    .controls {
+        width: 75%;
+        bottom: 20px;
+    }
 }
 
-/* New buttons styling */
-#resetScene, #undo, #redo {
-    background-color: #e74c3c;
-    color: white;
+/* Responsive pour les écrans de 768px */
+@media (max-width: 768px) {
+    .controls {
+        width: 70%;
+        flex-direction: column;
+    }
+    button, select, input {
+        font-size: 13px;
+    }
 }
 
-#resetScene:hover, #undo:hover, #redo:hover {
-    background-color: #c0392b;
+/* Responsive pour les écrans de 620px */
+@media (max-width: 620px) {
+    .controls {
+        width: 90%;
+        bottom: 25px;
+    }
+    button, select, input {
+        font-size: 12px;
+    }
 }
 
-#undo, #redo {
-    background-color: #f39c12;
-    color: white;
+/* Responsive pour les écrans de 520px */
+@media (max-width: 520px) {
+    .controls {
+        width: 95%;
+    }
+    button, select, input {
+        font-size: 11px;
+    }
 }
 
-#undo:hover, #redo:hover {
-    background-color: #e67e22;
+/* Responsive pour les écrans de 425px */
+@media (max-width: 425px) {
+    .controls {
+        width: 100%;
+        padding: 5px;
+    }
+    button, select, input {
+        font-size: 10px;
+    }
 }
 
+/* Responsive pour les écrans de 413px */
+@media (max-width: 413px) {
+    .controls {
+        width: 100%;
+        padding: 5px;
+        bottom: 30px;
+    }
+    button, select, input {
+        font-size: 10px;
+    }
+}
 
-#normalTilePose,#offsetTilePose{
-
-    display: none;
+/* Responsive pour les écrans de 360px */
+@media (max-width: 360px) {
+    .controls {
+        width: 100%;
+        padding: 5px;
+        bottom: 35px;
+    }
+    button, select, input {
+        font-size: 9px;
+    }
 }
