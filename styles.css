@@ -128,7 +128,7 @@ button{
 @media (max-width: 1024px) {
     .controls {
         width: 85%;
-        flex-direction: column;
+        flex-direction: row;
     }
     
 button{
@@ -150,6 +150,7 @@ button{
     .controls {
         width: 75%;
         bottom: 20px;
+        FLEX-DIRECTION: ROW;
     }
     
 button{
@@ -162,7 +163,7 @@ button{
     .controls {
         display: flex;
         width: 88%;
-        height: 37%;
+        height: 28%;
         flex-direction: row;
     }
 
