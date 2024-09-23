@@ -47,6 +47,13 @@ input {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
+button{
+    margin-right: 3px;
+}
+
+
+
+
 /* Primary button colors */
 button,
 input[type="submit"] {
