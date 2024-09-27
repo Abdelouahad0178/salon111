@@ -17,47 +17,57 @@
         <!-- Apply Texture Button -->
         <button id="applyTexture">Appliquer Texture</button>
 
-        <!-- Hidden texture options initially -->
+        <!-- Texture options -->
         <div id="textureOptions" style="display: none;">
             <button id="choosePaint" class="secondary">Peinture</button>
             <button id="chooseTile" class="secondary">Carrelage</button>
             <button id="normalTilePose" disabled>Pose Normale</button>
             <button id="offsetTilePose" disabled>Pose Décalée</button>
-            <button id="saveImage">Sauvegarder l'image</button>
-            <button id="resetScene">Mise à zéro</button>
         </div>
 
-        <!-- Hidden file input for uploading tile images -->
+        <!-- File input for uploading tile images -->
         <input type="file" id="tileInput" accept="image/*" style="display: none;">
 
-        <!-- Hidden color picker for choosing paint colors -->
+        <!-- Color picker for choosing paint colors -->
         <input type="color" id="colorPicker" style="display: none;">
 
-        <!-- Hidden light intensity slider -->
-        <label for="lightSlider" style="display: none;">Intensité de la lumière:</label>
-        <input type="range" id="lightSlider" min="0" max="2" step="0.1" value="1" style="display: none;">
+        <!-- Light intensity slider -->
+        <div>
+            <label for="lightSlider">Intensité de la lumière:</label>
+            <input type="range" id="lightSlider" min="0" max="2" step="0.1" value="1">
+        </div>
 
-        <!-- Tile width and height sliders for floor with labels -->
-        <label for="floorTileWidth">Largeur des carreaux (sol):</label>
-        <span id="floorTileWidthValue">60</span> <!-- Width in cm -->
-        <input type="range" id="floorTileWidth" min="0" max="200" step="0.1" value="60">
+        <!-- Tile dimensions for floor -->
+        <div>
+            <label for="floorTileWidth">Largeur des carreaux (sol):</label>
+            <input type="range" id="floorTileWidth" min="1" max="200" step="0.1" value="60">
+            <span id="floorTileWidthValue">60</span> cm
+        </div>
 
-        <label for="floorTileHeight">Hauteur des carreaux (sol):</label>
-        <span id="floorTileHeightValue">60</span> <!-- Height in cm -->
-        <input type="range" id="floorTileHeight" min="0" max="200" step="0.1" value="60">
+        <div>
+            <label for="floorTileHeight">Hauteur des carreaux (sol):</label>
+            <input type="range" id="floorTileHeight" min="1" max="200" step="0.1" value="60">
+            <span id="floorTileHeightValue">60</span> cm
+        </div>
 
-        <!-- Tile width and height sliders for wall1 with labels -->
-        <label for="wall1TileWidth">Largeur des carreaux (mur1):</label>
-        <span id="wall1TileWidthValue">60</span> <!-- Width in cm -->
-        <input type="range" id="wall1TileWidth" min="0" max="200" step="0.1" value="60">
+        <!-- Tile dimensions for wall1 -->
+        <div>
+            <label for="wall1TileWidth">Largeur des carreaux (mur1):</label>
+            <input type="range" id="wall1TileWidth" min="1" max="200" step="0.1" value="60">
+            <span id="wall1TileWidthValue">60</span> cm
+        </div>
 
-        <label for="wall1TileHeight">Hauteur des carreaux (mur1):</label>
-        <span id="wall1TileHeightValue">120</span> <!-- Height in cm -->
-        <input type="range" id="wall1TileHeight" min="0" max="300" step="0.1" value="120">
+        <div>
+            <label for="wall1TileHeight">Hauteur des carreaux (mur1):</label>
+            <input type="range" id="wall1TileHeight" min="1" max="300" step="0.1" value="120">
+            <span id="wall1TileHeightValue">120</span> cm
+        </div>
 
-        <!-- Undo and Redo buttons -->
+        <!-- Action buttons -->
         <button id="undo" class="secondary">Défaire</button>
         <button id="redo" class="secondary">Refaire</button>
+        <button id="saveImage">Sauvegarder l'image</button>
+        <button id="resetScene">Mise à zéro</button>
     </div>
 
     <!-- External Libraries and Scripts -->

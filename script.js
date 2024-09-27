@@ -13,11 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveImageBtn = document.getElementById('saveImage');
     const resetSceneBtn = document.getElementById('resetScene');
 
-    const floorTileWidthInput = document.getElementById('floorTileWidth');
-    const floorTileHeightInput = document.getElementById('floorTileHeight');
-    const wall1TileWidthInput = document.getElementById('wall1TileWidth');
-    const wall1TileHeightInput = document.getElementById('wall1TileHeight');
-
     const normalTilePoseBtn = document.getElementById('normalTilePose');
     const offsetTilePoseBtn = document.getElementById('offsetTilePose');
 
@@ -108,26 +103,27 @@ document.addEventListener('DOMContentLoaded', function () {
     renderer.domElement.addEventListener('click', onMouseClick, false);
     renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: true });
 
-    // Ajuster la largeur et la hauteur des carreaux
-    floorTileWidthInput.addEventListener('input', () => {
-        floorTileWidth = parseFloat(floorTileWidthInput.value);
-        adjustFloorTileDimensions();
-    });
+    // Fonction pour mettre à jour la valeur affichée
+    function updateValue(sliderId, valueId) {
+        const slider = document.getElementById(sliderId);
+        const valueSpan = document.getElementById(valueId);
+        
+        slider.addEventListener('input', function() {
+            valueSpan.textContent = parseFloat(this.value).toFixed(1);
+            
+            if (sliderId.includes('floor')) {
+                adjustFloorTileDimensions();
+            } else if (sliderId.includes('wall1')) {
+                adjustWall1TileDimensions();
+            }
+        });
+    }
 
-    floorTileHeightInput.addEventListener('input', () => {
-        floorTileHeight = parseFloat(floorTileHeightInput.value);
-        adjustFloorTileDimensions();
-    });
-
-    wall1TileWidthInput.addEventListener('input', () => {
-        wall1TileWidth = parseFloat(wall1TileWidthInput.value);
-        adjustWall1TileDimensions();
-    });
-
-    wall1TileHeightInput.addEventListener('input', () => {
-        wall1TileHeight = parseFloat(wall1TileHeightInput.value);
-        adjustWall1TileDimensions();
-    });
+    // Mettre à jour les valeurs pour chaque slider
+    updateValue('floorTileWidth', 'floorTileWidthValue');
+    updateValue('floorTileHeight', 'floorTileHeightValue');
+    updateValue('wall1TileWidth', 'wall1TileWidthValue');
+    updateValue('wall1TileHeight', 'wall1TileHeightValue');
 
     // Gestion des types de pose de carrelage au sol et au mur1
     normalTilePoseBtn.addEventListener('click', () => {
@@ -313,18 +309,22 @@ function applyTileToWall1(texture, isOffset) {
 }
 
 function adjustFloorTileDimensions() {
+    floorTileWidth = parseFloat(document.getElementById('floorTileWidth').value);
+    floorTileHeight = parseFloat(document.getElementById('floorTileHeight').value);
     if (floor.material.map) {
         applyTileToFloor(floor.material.map, floor.material.map.offset.x !== 0);
-        console.log(`Dimensions des carreaux du sol ajustées : Largeur = ${floorTileWidth}, Hauteur = ${floorTileHeight}`);
     }
 }
 
 function adjustWall1TileDimensions() {
+    wall1TileWidth = parseFloat(document.getElementById('wall1TileWidth').value);
+    wall1TileHeight = parseFloat(document.getElementById('wall1TileHeight').value);
     if (walls[0].material.map) {
         applyTileToWall1(walls[0].material.map, walls[0].material.map.offset.y !== 0);
-        console.log(`Dimensions des carreaux du mur1 ajustées : Largeur = ${wall1TileWidth}, Hauteur = ${wall1TileHeight}`);
     }
-}function handleDoubleClick(x, y) {
+}
+
+function handleDoubleClick(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
 
@@ -344,7 +344,6 @@ function adjustWall1TileDimensions() {
         }
     }
 }
-
 function toggleFloorTextureOrientation() {
     if (floor.material.map) {
         const texture = floor.material.map;

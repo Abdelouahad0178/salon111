@@ -269,3 +269,10 @@ button{
     margin-right: 3px;
 }
 }
+
+
+
+#offsetTilePose ,#normalTilePose{
+    display: none;
+}
+
