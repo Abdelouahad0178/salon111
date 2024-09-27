@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scène 3D Interactive</title>
     <link rel="shortcut icon" href="/images/favicon-32x32.png" type="image/x-icon">
-    <link rel="manifest" href="/manifest.json">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -37,32 +37,28 @@
         <label for="lightSlider" style="display: none;">Intensité de la lumière:</label>
         <input type="range" id="lightSlider" min="0" max="2" step="0.1" value="1" style="display: none;">
 
-        <!-- Tile width and height sliders with labels -->
-        <label for="tileWidth">Largeur des carreaux:</label>
-        <span id="tileWidthValue">60</span> <!-- Width in cm -->
-        <input type="range" id="tileWidth" min="0" max="200" step="0.1" value="60">
+        <!-- Tile width and height sliders for floor with labels -->
+        <label for="floorTileWidth">Largeur des carreaux (sol):</label>
+        <span id="floorTileWidthValue">60</span> <!-- Width in cm -->
+        <input type="range" id="floorTileWidth" min="0" max="200" step="0.1" value="60">
 
-        <label for="tileHeight">Hauteur des carreaux:</label>
-        <span id="tileHeightValue">120</span> <!-- Height in cm -->
-        <input type="range" id="tileHeight" min="0" max="300" step="0.1" value="120">
+        <label for="floorTileHeight">Hauteur des carreaux (sol):</label>
+        <span id="floorTileHeightValue">60</span> <!-- Height in cm -->
+        <input type="range" id="floorTileHeight" min="0" max="200" step="0.1" value="60">
+
+        <!-- Tile width and height sliders for wall1 with labels -->
+        <label for="wall1TileWidth">Largeur des carreaux (mur1):</label>
+        <span id="wall1TileWidthValue">60</span> <!-- Width in cm -->
+        <input type="range" id="wall1TileWidth" min="0" max="200" step="0.1" value="60">
+
+        <label for="wall1TileHeight">Hauteur des carreaux (mur1):</label>
+        <span id="wall1TileHeightValue">120</span> <!-- Height in cm -->
+        <input type="range" id="wall1TileHeight" min="0" max="300" step="0.1" value="120">
 
         <!-- Undo and Redo buttons -->
         <button id="undo" class="secondary">Défaire</button>
         <button id="redo" class="secondary">Refaire</button>
     </div>
-
-    <script>
-        // Service Worker Registration for caching files
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then((registration) => {
-                    console.log('ServiceWorker enregistré avec succès : ', registration);
-                }, (err) => {
-                    console.log('Échec de l\'enregistrement du ServiceWorker : ', err);
-                });
-            });
-        }
-    </script>
 
     <!-- External Libraries and Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
