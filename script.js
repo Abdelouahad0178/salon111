@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const chooseTileBtn = document.getElementById('chooseTile');
     const tileInput = document.getElementById('tileInput');
     const colorPicker = document.getElementById('colorPicker');
+    const backgroundColorPicker = document.getElementById('backgroundColorPicker');
     const lightSlider = document.getElementById('lightSlider');
     const redoBtn = document.getElementById('redo');
     const undoBtn = document.getElementById('undo');
@@ -15,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const normalTilePoseBtn = document.getElementById('normalTilePose');
     const offsetTilePoseBtn = document.getElementById('offsetTilePose');
+
+    const floorTileWidthInput = document.getElementById('floorTileWidth');
+    const floorTileHeightInput = document.getElementById('floorTileHeight');
+    const wall1TileWidthInput = document.getElementById('wall1TileWidth');
+    const wall1TileHeightInput = document.getElementById('wall1TileHeight');
 
     // Désactiver les boutons de pose au démarrage
     normalTilePoseBtn.disabled = true;
@@ -84,12 +90,16 @@ document.addEventListener('DOMContentLoaded', function () {
         applyPaintToAllWalls(color);
     });
 
+    // Gestionnaire d'événements pour le sélecteur de couleur d'arrière-plan
+    backgroundColorPicker.addEventListener('input', (event) => {
+        const color = event.target.value;
+        changeBackgroundColor(color);
+    });
+
     // Slider pour ajuster l'intensité de la lumière
     lightSlider.addEventListener('input', (event) => {
         updateLightIntensity(event.target.value);
     });
-
-    lightSlider.style.display = 'inline-block';
 
     // Remplacer les actions pour "Défaire" et "Refaire"
     undoBtn.addEventListener('click', () => undoAction());
@@ -195,6 +205,8 @@ function init() {
     scene.add(directionalLight);
 
     window.addEventListener('resize', onWindowResize, false);
+
+    scene.background = new THREE.Color(0xffffff);
 
     animate();
 }
@@ -323,7 +335,6 @@ function adjustWall1TileDimensions() {
         applyTileToWall1(walls[0].material.map, walls[0].material.map.offset.y !== 0);
     }
 }
-
 function handleDoubleClick(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
@@ -344,6 +355,7 @@ function handleDoubleClick(x, y) {
         }
     }
 }
+
 function toggleFloorTextureOrientation() {
     if (floor.material.map) {
         const texture = floor.material.map;
@@ -456,6 +468,9 @@ function undoAction() {
             walls[0].material.map = null;
             walls[0].material.color.set(0x888888);
             walls[0].material.needsUpdate = true;
+        } else if (lastAction.action === 'changeBackgroundColor') {
+            scene.background = new THREE.Color(0xffffff); // Couleur par défaut
+            document.getElementById('backgroundColorPicker').value = "#ffffff";
         }
         
         console.log('Action défaite.');
@@ -475,6 +490,8 @@ function redoAction() {
             applyTileToFloor(actionToRedo.texture, actionToRedo.param);
         } else if (actionToRedo.action === 'applyTileToWall1') {
             applyTileToWall1(actionToRedo.texture, actionToRedo.param);
+        } else if (actionToRedo.action === 'changeBackgroundColor') {
+            changeBackgroundColor(actionToRedo.texture);
         }
         
         console.log('Action refaite.');
@@ -503,6 +520,9 @@ function resetScene() {
         wall.material.color.set(0x888888);
         wall.material.needsUpdate = true;
     });
+
+    scene.background = new THREE.Color(0xffffff);
+    document.getElementById('backgroundColorPicker').value = "#ffffff";
 
     actionHistory = [];
     redoStack = [];
@@ -537,6 +557,14 @@ function applyPaintToAllWalls(color) {
 
     // Sauvegarder l'action dans l'historique
     saveAction('applyPaintToAllWalls', color);
+}
+
+function changeBackgroundColor(color) {
+    scene.background = new THREE.Color(color);
+    console.log(`Couleur d'arrière-plan changée à ${color}`);
+    
+    // Sauvegarder l'action dans l'historique
+    saveAction('changeBackgroundColor', color);
 }
 
 // Assurez-vous d'appeler init() quelque part dans votre code pour initialiser la scène
