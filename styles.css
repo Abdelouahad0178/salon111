@@ -7,9 +7,7 @@ body {
     font-family: "Roboto", Arial, sans-serif;
     overflow: hidden;
     background-color: #a1b8db;
-    /* Light gray background */
     color: #333;
-    /* Default text color */
 }
 
 canvas {
@@ -30,11 +28,14 @@ canvas {
     padding: 15px;
     display: flex;
     align-items: center;
-
     flex-wrap: wrap;
     border-radius: 8px;
     filter: drop-shadow(0 5px 10px rgba(218, 211, 211, 0.6));
-    
+    transition: transform 0.3s ease-in-out;
+}
+
+.controls.hidden {
+    transform: translate(-50%, 100%);
 }
 
 /* General button, select, input styling */
@@ -48,66 +49,52 @@ input {
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
-   
 }
 
-button{
+button {
     margin-right: 3px;
     filter: drop-shadow(0 50px 20px #0009);
-    
 }
-
-
-
 
 /* Primary button colors */
 button,
 input[type="submit"] {
     background-color: #8e44ad;
-    /* Primary Purple */
     color: white;
     border: 2px solid transparent;
-    
 }
 
 /* Button hover state */
 button:hover,
 input[type="submit"]:hover {
     background-color: #732d91;
-    /* Darker purple on hover */
 }
 
 /* Button active (clicked) state */
 button:active,
 input[type="submit"]:active {
     background-color: #e67e22;
-    /* Orange when active */
     border-color: #e67e22;
 }
 
 /* Secondary button color */
 button.secondary {
     background-color: #1abc9c;
-    /* Teal for secondary buttons */
     color: white;
 }
 
 button.secondary:hover {
     background-color: #16a085;
-    /* Darker teal on hover */
 }
 
 button.secondary:active {
     background-color: #e67e22;
-    /* Orange when active */
 }
 
 /* Disabled button styling */
 button:disabled {
     background-color: #bdc3c7;
-    /* Light gray for disabled state */
     color: #ecf0f1;
-    /* Lighter text for readability */
     cursor: not-allowed;
 }
 
@@ -116,7 +103,31 @@ button:focus,
 input:focus {
     outline: none;
     border-color: #e67e22;
-    /* Orange border on focus */
+}
+
+/* Toggle menu button */
+.toggle-menu {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background-color: rgba(142, 68, 173, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.toggle-menu:hover {
+    background-color: rgba(142, 68, 173, 1);
+}
+
+.toggle-menu:active {
+    transform: scale(0.95);
 }
 
 /* Responsive for different screen sizes */
@@ -126,10 +137,6 @@ input:focus {
         flex-direction: row;
         bottom: 15px;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 1024px) {
@@ -137,36 +144,23 @@ button{
         width: 85%;
         flex-direction: row;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 992px) {
     .controls {
         width: 80%;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 820px) {
     .controls {
         width: 75%;
         bottom: 20px;
-        FLEX-DIRECTION: ROW;
+        flex-direction: row;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 768px) {
-
     .controls {
         display: flex;
         width: 88%;
@@ -179,10 +173,12 @@ button{
     input {
         font-size: 13px;
     }
-    
-button{
-    margin-right: 3px;
-}
+
+    .toggle-menu {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
 }
 
 @media (max-width: 620px) {
@@ -197,10 +193,6 @@ button{
     input {
         font-size: 12px;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 520px) {
@@ -216,10 +208,6 @@ button{
     input {
         font-size: 11px;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 425px) {
@@ -234,10 +222,6 @@ button{
     input {
         font-size: 10px;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 413px) {
@@ -253,10 +237,6 @@ button{
     input {
         font-size: 10px;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
 @media (max-width: 360px) {
@@ -271,15 +251,12 @@ button{
     input {
         font-size: 9px;
     }
-    
-button{
-    margin-right: 3px;
-}
 }
 
-
-
-#offsetTilePose ,#normalTilePose{
+#offsetTilePose, #normalTilePose {
     display: none;
 }
 
+.controls {
+    color: blue;
+}

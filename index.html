@@ -7,16 +7,18 @@
     <title>Scène 3D Interactive</title>
     <link rel="shortcut icon" href="/images/favicon-32x32.png" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
-    
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <canvas id="scene"></canvas>
 
+    <!-- Nouveau bouton toggle -->
+    <button id="toggleMenu" class="toggle-menu">☰</button>
+
     <div class="controls">
         <!-- Apply Texture Button -->
-        <button id="applyTexture">Appliquer TextureVVVV</button>
+        <button id="applyTexture">Appliquer Texture</button>
 
         <!-- Texture options -->
         <div id="textureOptions" style="display: none;">
@@ -77,37 +79,18 @@
         <button id="resetScene">Mise à zéro</button>
     </div>
 
-
-
-
     <script>
-
-
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-              navigator.serviceWorker.register('/sw.js').then((registration) => {
-                console.log('ServiceWorker enregistré avec succès : ', registration);
-              }, (err) => {
-                console.log('Échec de l\'enregistrement du ServiceWorker : ', err);
-              });
+                navigator.serviceWorker.register('/sw.js').then((registration) => {
+                    console.log('ServiceWorker enregistré avec succès : ', registration);
+                }, (err) => {
+                    console.log('Échec de l\'enregistrement du ServiceWorker : ', err);
+                });
             });
-          }
-          
-    
-    
-    
-    
-    
-    
+        }
     </script>
 
-
-
-
-
-
-    
     <!-- External Libraries and Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>

@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const wall1TileWidthInput = document.getElementById('wall1TileWidth');
     const wall1TileHeightInput = document.getElementById('wall1TileHeight');
 
+    // Nouveau bouton toggle pour le menu
+    const toggleMenuBtn = document.getElementById('toggleMenu');
+    const controlsPanel = document.querySelector('.controls');
+
     // Désactiver les boutons de pose au démarrage
     normalTilePoseBtn.disabled = true;
     offsetTilePoseBtn.disabled = true;
@@ -156,6 +160,12 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             console.error('La texture doit être chargée avant d\'appliquer la pose.');
         }
+    });
+
+    // Nouveau gestionnaire d'événements pour le bouton toggle du menu
+    toggleMenuBtn.addEventListener('click', function() {
+        controlsPanel.classList.toggle('hidden');
+        toggleMenuBtn.textContent = controlsPanel.classList.contains('hidden') ? '☰' : '✕';
     });
 });
 
@@ -335,6 +345,7 @@ function adjustWall1TileDimensions() {
         applyTileToWall1(walls[0].material.map, walls[0].material.map.offset.y !== 0);
     }
 }
+
 function handleDoubleClick(x, y) {
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
