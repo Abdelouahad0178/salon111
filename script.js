@@ -248,7 +248,7 @@ function createFloor() {
     const floorDepth = 5;
     const floorGeometry = new THREE.PlaneGeometry(floorWidth, floorDepth);
     const floorMaterial = new THREE.MeshStandardMaterial({
-        color: 0xcccccc,
+        color: 0xD6B7B9,
         side: THREE.DoubleSide,
         wireframe: false,
         map: null
