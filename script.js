@@ -578,5 +578,21 @@ function changeBackgroundColor(color) {
     saveAction('changeBackgroundColor', color);
 }
 
+
+
+
+
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
+
+
+
+
+
+
+
+
 // Assurez-vous d'appeler init() quelque part dans votre code pour initialiser la scène
 // init();
