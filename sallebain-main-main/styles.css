@@ -1,0 +1,575 @@
+/* Styles de base */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+   
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 50px);
+   
+    
+}
+
+/* Contrôles et boutons */
+.controls {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background: rgba(67, 25, 121, 0.9);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 50px 20px #0009);
+}
+
+.file-inputs,
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    filter: drop-shadow(0 50px 20px #0009);
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label,
+.btn {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 25px;
+    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    font-size: 70%;
+    filter: drop-shadow(9 30px 10px rgba(229, 26, 26, 0.6));
+}
+
+.file-label:hover,
+.btn:hover {
+    background-color: #2980b9;
+}
+
+.slider {
+    margin: 5px;
+    width: 150px;
+}
+
+/* Palette de textures */
+.texture-palette {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 80vh;
+    background: rgba(197, 175, 175, 0.9);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 50px 20px #0009);
+}
+
+.texture-option {
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Contrôles de dimensions */
+#dimensionControls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+#dimensionControls label {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#dimensionControls input {
+    width: 60px;
+    text-align: center;
+}
+
+/* Styles de modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.modal h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.visible {
+    display: flex;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Styles pour le mode plein écran */
+.fullscreen-mode {
+    overflow: hidden;
+}
+
+.fullscreen-mode canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 5;
+}
+
+.fullscreen-mode .controls,
+.fullscreen-mode .texture-palette {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fullscreen-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.fullscreen-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.fullscreen-btn span {
+    font-size: 20px;
+}
+
+.fullscreen-mode .fullscreen-container {
+    display: block !important;
+}
+
+/* Media Queries pour la responsivité */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    .file-label,
+    .btn {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .texture-palette {
+        width: 80px;
+        padding: 5px;
+    }
+
+    .texture-option {
+        width: 100%;
+    }
+
+    .fullscreen-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .fullscreen-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .fullscreen-btn span {
+        font-size: 16px;
+    }
+}
+
+
+
+
+/* Styles pour le bouton plein écran */
+.fullscreen-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.fullscreen-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-size: 20px;
+    color: #333;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+/* Styles spécifiques pour le mode plein écran */
+.fullscreen-mode .fullscreen-btn {
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.fullscreen-mode .fullscreen-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Assurez-vous que le bouton reste visible en mode plein écran */
+.fullscreen-mode .fullscreen-container {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Cacher les autres contrôles en mode plein écran */
+.fullscreen-mode .controls,
+.fullscreen-mode .texture-palette {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Media query pour les appareils mobiles */
+@media (max-width: 768px) {
+    .fullscreen-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .fullscreen-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
+/* Styles de base pour la palette de textures et les contrôles */
+.texture-palette, .controls {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.texture-palette {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 80vh;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.controls {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles pour le mode plein écran */
+.fullscreen-mode .texture-palette {
+    transform: translateX(120%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fullscreen-mode .controls {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Styles pour le bouton plein écran */
+.fullscreen-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.fullscreen-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-size: 20px;
+    color: #333;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+.fullscreen-mode .fullscreen-btn {
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.fullscreen-mode .fullscreen-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Assurez-vous que le bouton plein écran reste visible */
+.fullscreen-mode .fullscreen-container {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Media query pour les appareils mobiles */
+@media (max-width: 768px) {
+    .fullscreen-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .fullscreen-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
+
+
+/* Styles de base pour les contrôles */
+.controls, .persistent-controls {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.controls {
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.persistent-controls {
+    bottom: 70px;  /* Ajustez cette valeur selon vos besoins */
+    right: 20px;
+}
+
+/* Styles pour le mode plein écran */
+.fullscreen-mode .controls {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fullscreen-mode .persistent-controls {
+    bottom: 70px;  /* Gardez le bouton visible en mode plein écran */
+}
+
+/* Styles pour le bouton plein écran */
+.fullscreen-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.fullscreen-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-size: 20px;
+    color: #333;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+.fullscreen-mode .fullscreen-btn {
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.fullscreen-mode .fullscreen-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Styles pour le bouton "Sauvegarder scène" */
+.btn {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 25px;
+    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    font-size: 70%;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+/* Media query pour les appareils mobiles */
+@media (max-width: 768px) {
+    .fullscreen-container, .persistent-controls {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .fullscreen-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .persistent-controls {
+        bottom: 50px;  /* Ajustez cette valeur pour les appareils mobiles */
+    }
+}
+
+
+
+.persistent-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1001;
+    transition: opacity 0.3s ease;
+}
+
+.fullscreen-mode .persistent-controls {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fullscreen-mode .persistent-controls:hover {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.persistent-controls .btn {
+    background-color: rgba(52, 152, 219, 0.7);
+}
+
+.persistent-controls .btn:hover {
+    background-color: rgba(52, 152, 219, 1);
+}
+
+
+.modal1, .modal hidden{
+    display: none;
+}
+
+
